@@ -10,7 +10,8 @@ button:disabled{cursor:default}.option{line-height:1.6;overflow-wrap:anywhere}
 #audioControls{margin-bottom:16px}#audioStatus{display:block;min-height:22px;margin:0 0 8px}
 #stopAudio:disabled{opacity:.5}#manualCopy{min-height:70px}
 @media(max-width:420px){.card{padding:16px}.english{font-size:20px}}
-.review-skill{border-top:1px solid #40516e;padding:14px 0}.review-skill p{margin:6px 0}.practice-card{padding:16px;background:#0c293c;border-radius:12px;margin:18px 0}.practice-card button{margin:6px 6px 0 0}#app{scroll-margin-top:16px}#challengePanel p{overflow-wrap:anywhere}</style></head><body><main><div class="hero"><div class="tag" id="dayTag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p id="sessionIntro">Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span id="roundMeta">6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><section id="challengePanel" class="card hidden"></section><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.4。英语音频为预先生成的 AI 美式英语语音，正常版与慢速版分别制作；本版不录音、不上传学习数据。进度和个人易错点记录保存在当前浏览器设备中。</footer></main><script>
+.review-skill{border-top:1px solid #40516e;padding:14px 0}.review-skill p{margin:6px 0}.practice-card{padding:16px;background:#0c293c;border-radius:12px;margin:18px 0}.practice-card button{margin:6px 6px 0 0}#app{scroll-margin-top:16px}#challengePanel p{overflow-wrap:anywhere}</style></head><body><main><div class="hero"><div class="tag" id="dayTag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p id="sessionIntro">Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span id="roundMeta">6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><section id="challengePanel" class="card hidden"></section><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.5。英语音频为预先生成的 AI 美式英语语音，正常版与慢速版分别制作。本版不录音，匿名统计页面访问、开始和完成训练事件。答题记录和个人易错点仅保存在当前浏览器设备中。</footer></main><script src="analytics.js"></script><script>
+const trainingAnalytics = window.trainingAnalytics || {source:() => ({}), track:() => {}};
 const lessons = [
   {
     "scene": "客户看完了你展示的测算表",
@@ -534,6 +535,7 @@ let answers = activeLessons.map((question, i) => {
   return Number.isInteger(value) && value >= 0 && value < question.opts.length ? value : null;
 });
 let firstAnswers = activeLessons.map(question => history.find(event => event.round === roundId && event.qid === question.id)?.choice ?? null);
+let roundSource = trainingAnalytics.source(savedRound?.analyticsSource);
 let idx = Number.isInteger(savedRound?.idx) && savedRound.idx >= 0 && savedRound.idx <= activeLessons.length ? savedRound.idx : 0;
 let selected = answers[idx] ?? null;
 let checked = selected !== null;
@@ -552,7 +554,7 @@ function save() {
     history = [...merged.values()].sort((a, b) => a.at - b.at).slice(-600);
     firstAnswers = activeLessons.map(question => history.find(event => event.round === roundId && event.qid === question.id)?.choice ?? null);
     localStorage.setItem(stateKey, JSON.stringify({history, round:{
-      id:roundId, mode, questionIds:activeLessons.map(question => question.id), idx, answers, challengerScore
+      id:roundId, mode, questionIds:activeLessons.map(question => question.id), idx, answers, challengerScore, analyticsSource:roundSource
     }}));
   } catch (error) {
     document.getElementById('storageStatus').textContent = '浏览器未能保存学习记录，本次仍可继续练习。';
@@ -564,6 +566,7 @@ function startRound(nextMode, questions, opponent = null) {
   mode = nextMode;
   activeLessons = questions;
   roundId = newRoundId();
+  roundSource = trainingAnalytics.source();
   challengerScore = opponent;
   answers = questions.map(() => null);
   firstAnswers = questions.map(() => null);
@@ -853,8 +856,17 @@ function render() {
   });
   document.getElementById('check').onclick = () => {
     if (selected === null || checked) return;
-    if (!history.some(event => event.round === roundId && event.qid === activeLessons[idx].id)) {
+    const firstSubmission = !history.some(event => event.round === roundId && event.qid === activeLessons[idx].id);
+    if (firstSubmission) {
+      const started = history.some(event => event.round === roundId);
+      if (!started) roundSource = trainingAnalytics.source();
       history.push({round:roundId, qid:activeLessons[idx].id, choice:selected, at:Date.now()});
+      if (mode === 'day1') {
+        if (!started) trainingAnalytics.track('start', roundSource);
+        if (activeLessons.every(question => history.some(event => event.round === roundId && event.qid === question.id))) {
+          trainingAnalytics.track('complete', roundSource);
+        }
+      }
     }
     answers[idx] = selected;
     checked = true;
