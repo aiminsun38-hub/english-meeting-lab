@@ -10,7 +10,7 @@ button:disabled{cursor:default}.option{line-height:1.6;overflow-wrap:anywhere}
 #audioControls{margin-bottom:16px}#audioStatus{display:block;min-height:22px;margin:0 0 8px}
 #stopAudio:disabled{opacity:.5}#manualCopy{min-height:70px}
 @media(max-width:420px){.card{padding:16px}.english{font-size:20px}}
-</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.3。英语音频为预先生成的 AI 美式英语语音，正常版与慢速版分别制作；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
+.review-skill{border-top:1px solid #40516e;padding:14px 0}.review-skill p{margin:6px 0}.practice-card{padding:16px;background:#0c293c;border-radius:12px;margin:18px 0}.practice-card button{margin:6px 6px 0 0}#app{scroll-margin-top:16px}#challengePanel p{overflow-wrap:anywhere}</style></head><body><main><div class="hero"><div class="tag" id="dayTag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p id="sessionIntro">Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span id="roundMeta">6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><section id="challengePanel" class="card hidden"></section><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.4。英语音频为预先生成的 AI 美式英语语音，正常版与慢速版分别制作；本版不录音、不上传学习数据。进度和个人易错点记录保存在当前浏览器设备中。</footer></main><script>
 const lessons = [
   {
     "scene": "客户看完了你展示的测算表",
@@ -133,39 +133,584 @@ const lessons = [
     "reply": "Who will send the updated proposal, and by when?"
   }
 ];
-const progressKey = 'english-meeting-day1-answers-v2';
-let saved = null;
-try {
-  saved = JSON.parse(localStorage.getItem(progressKey) || 'null');
-} catch (error) {
-  // An unreadable saved value starts a fresh session.
+const practiceBank = [
+  {
+    "id": "basis-1",
+    "skill": "basis",
+    "en": "The price covers forty units at two hundred and fifty dollars each, plus a five hundred dollar delivery fee.",
+    "q": "这份报价怎样组成总价？",
+    "opts": [
+      "Delivery is included in the price of each unit.",
+      "The units cost $10,000, and delivery adds $500.",
+      "The total price is $10,000, including delivery.",
+      "The delivery fee is $500 for each unit."
+    ],
+    "a": 1,
+    "why": "40 × 250 = 10,000，plus 表示还要另加 500 美元运费，总价为 10,500 美元。",
+    "miss": [
+      "plus 表示运费另加，单价没有包含运费。",
+      "",
+      "这项把另加的运费算进了 10,000 美元货款。",
+      "500 美元是整笔订单的运费，原句没有说每件都收。"
+    ],
+    "errors": [
+      "把另加费用当作已包含",
+      "",
+      "漏算额外费用",
+      "混淆单件与整单费用"
+    ],
+    "reply": "So the units cost ten thousand dollars, plus five hundred for delivery. Is that correct?"
+  },
+  {
+    "id": "basis-2",
+    "skill": "basis",
+    "en": "We based the estimate on last month's actual usage, rather than the maximum capacity.",
+    "q": "这次估算使用了什么依据？",
+    "opts": [
+      "The maximum capacity of the system.",
+      "The expected usage for next month.",
+      "The actual usage recorded last month.",
+      "The total cost of running the system."
+    ],
+    "a": 2,
+    "why": "based on 引出估算依据。rather than 排除了最大产能，依据是上个月的实际用量。",
+    "miss": [
+      "maximum capacity 出现在 rather than 后，是这次没有采用的依据。",
+      "原句说的是上个月已经发生的用量。",
+      "",
+      "运行总成本没有在这句话中出现。"
+    ],
+    "errors": [
+      "选中了被排除的依据",
+      "混淆实际数据与未来预测",
+      "",
+      "加入原句未提供的信息"
+    ],
+    "reply": "So the estimate uses last month's actual usage, rather than maximum capacity. Is that right?"
+  },
+  {
+    "id": "condition-1",
+    "skill": "condition",
+    "en": "We can ship on Friday, provided the final payment arrives by Wednesday.",
+    "q": "哪句同时保留了发货安排和付款条件？",
+    "opts": [
+      "We can ship on Wednesday if payment arrives by Friday.",
+      "We will ship on Friday even if payment has not arrived.",
+      "We can ship after Friday if payment arrives on Wednesday.",
+      "We can ship on Friday if payment arrives by Wednesday."
+    ],
+    "a": 3,
+    "why": "provided 表示以某条件成立为前提。周三前到账是付款条件，周五是发货安排。",
+    "miss": [
+      "这项交换了付款和发货的日期。",
+      "even if 表示即使未付款也发货，改变了前提。",
+      "after Friday 把周五发货推迟到了周五之后。",
+      ""
+    ],
+    "errors": [
+      "交换两个日期的用途",
+      "忽略条件限制",
+      "改变完成时间",
+      ""
+    ],
+    "reply": "So Friday's shipment depends on receiving the final payment by Wednesday. Is that right?"
+  },
+  {
+    "id": "condition-2",
+    "skill": "condition",
+    "en": "We plan to start on Monday, assuming legal approves the contract before then.",
+    "q": "关于周一开工，哪项理解准确？",
+    "opts": [
+      "Starting on Monday depends on legal approval before Monday.",
+      "Legal will review the contract after work starts on Monday.",
+      "Work starts on Monday even if legal approval is still pending.",
+      "Legal approval means the work must be completed on Monday."
+    ],
+    "a": 0,
+    "why": "assuming 给周一开工加了前提：在此之前取得法务批准。start 说的是开始时间。",
+    "miss": [
+      "",
+      "before then 是在周一开工前，不能移到开工之后。",
+      "这项取消了原句中的批准前提。",
+      "completed 把开工日期改成了完工日期。"
+    ],
+    "errors": [
+      "",
+      "把前置审批放到开工后",
+      "忽略条件限制",
+      "混淆开始与完成"
+    ],
+    "reply": "Just to confirm, we start on Monday only if legal has approved the contract by then."
+  },
+  {
+    "id": "criteria-1",
+    "skill": "criteria",
+    "en": "For the trial to pass, the system must run for forty-eight hours without an unexpected shutdown.",
+    "q": "这次试运行通过验收的条件是什么？",
+    "opts": [
+      "Finish all trial preparations within forty-eight hours.",
+      "Run the system for forty-eight hours with no unexpected shutdown.",
+      "Restart the system at least once every forty-eight hours.",
+      "Record all shutdowns during a trial of any length."
+    ],
+    "a": 1,
+    "why": "for forty-eight hours 指运行持续 48 小时，without an unexpected shutdown 要求期间没有意外停机。",
+    "miss": [
+      "这项把持续运行时间变成了准备工作的截止时间。",
+      "",
+      "restart 是重启，原句要求没有意外停机。",
+      "any length 去掉了必须运行 48 小时的要求。"
+    ],
+    "errors": [
+      "把持续时间当作截止时间",
+      "",
+      "把禁止发生的情况当作要求",
+      "遗漏验收条件"
+    ],
+    "reply": "So passing means running for forty-eight hours without an unexpected shutdown. Is that correct?"
+  },
+  {
+    "id": "criteria-2",
+    "skill": "criteria",
+    "en": "We will accept the batch only if every sample meets the agreed purity standard.",
+    "q": "这批产品怎样才算合格？",
+    "opts": [
+      "The average purity of all samples meets the standard.",
+      "At least one sample meets the agreed standard.",
+      "Every sample meets the agreed purity standard.",
+      "All samples are tested, even if some fail the standard."
+    ],
+    "a": 2,
+    "why": "only if 引出必要条件，every sample 表示每个样品都要满足约定的纯度标准。",
+    "miss": [
+      "平均值合格仍可能有单个样品不合格。",
+      "at least one 只要求至少一个，达不到 every 的要求。",
+      "",
+      "完成检测不等于每个样品都合格。"
+    ],
+    "errors": [
+      "把逐个达标当作平均达标",
+      "把全部要求放宽为部分",
+      "",
+      "把执行检测当作通过验收"
+    ],
+    "reply": "Does that mean every sample must meet the purity standard for the batch to be accepted?"
+  },
+  {
+    "id": "focus-1",
+    "skill": "focus",
+    "en": "The purchase price is acceptable. What worries us is how often the filters need replacing.",
+    "q": "客户最担心什么？",
+    "opts": [
+      "How frequently the filters need to be replaced.",
+      "How much the system costs to buy.",
+      "How soon the first filters can be delivered.",
+      "How many filters are included in the purchase."
+    ],
+    "a": 0,
+    "why": "purchase price is acceptable 表明购买价格可以接受。真正的顾虑由 What worries us 引出，是更换滤芯的频率。",
+    "miss": [
+      "",
+      "购买价格已被客户接受。",
+      "这句没有提到首次交付时间。",
+      "这句没有提到购买时包含多少滤芯。"
+    ],
+    "errors": [
+      "",
+      "把已接受事项当作主要顾虑",
+      "加入原句未提供的信息",
+      "加入原句未提供的信息"
+    ],
+    "reply": "So your main concern is how often the filters need replacing. Is that right?"
+  },
+  {
+    "id": "focus-2",
+    "skill": "focus",
+    "en": "We are less worried about speed than about consistent results across repeated tests.",
+    "q": "客户更看重哪一项？",
+    "opts": [
+      "Completing one test as quickly as possible.",
+      "Increasing the number of tests each day.",
+      "Reducing the cost of repeating each test.",
+      "Getting consistent results when the test is repeated."
+    ],
+    "a": 3,
+    "why": "less worried about A than about B 表示相较 A 更担心 B。这里更看重重复测试时结果是否一致。",
+    "miss": [
+      "speed 是比较中关注度较低的一项。",
+      "原句关注结果一致性，没有要求增加每天测试次数。",
+      "这句没有提到重复测试的成本。",
+      ""
+    ],
+    "errors": [
+      "颠倒关注重点",
+      "把结果要求当作数量要求",
+      "加入原句未提供的信息",
+      ""
+    ],
+    "reply": "So consistent results matter more to you than speed. Have I understood correctly?"
+  },
+  {
+    "id": "sequence-1",
+    "skill": "sequence",
+    "en": "Please send the revised drawing to us before you order the parts.",
+    "q": "这两个动作应该按什么顺序做？",
+    "opts": [
+      "Order the parts, then send the revised drawing.",
+      "Send the revised drawing, then order the parts.",
+      "Send the original drawing, then revise the parts order.",
+      "Place the parts order and send the drawing at the same time."
+    ],
+    "a": 1,
+    "why": "before 表示前面的动作要先做：先发送修改后的图纸，再订购零件。",
+    "miss": [
+      "这项把先后顺序反过来了。",
+      "",
+      "原句要求发送修改后的图纸，未要求修改零件订单。",
+      "at the same time 把有先后要求的动作改成同时做。"
+    ],
+    "errors": [
+      "颠倒步骤顺序",
+      "",
+      "改变动作内容",
+      "忽略步骤先后"
+    ],
+    "reply": "So we send you the revised drawing before ordering the parts. Is that correct?"
+  },
+  {
+    "id": "sequence-2",
+    "skill": "sequence",
+    "en": "Once we approve the sample, start production and then arrange the shipment.",
+    "q": "哪一项保留了全部步骤的正确顺序？",
+    "opts": [
+      "Start production, approve the sample, then arrange shipment.",
+      "Approve the sample, arrange shipment, then start production.",
+      "Approve the sample, start production, then arrange shipment.",
+      "Arrange shipment, start production, then approve the sample."
+    ],
+    "a": 2,
+    "why": "Once we approve 表明样品批准在先，随后开始生产，then 再引出安排发货。",
+    "miss": [
+      "这项在样品批准前就开始生产。",
+      "这项把安排发货放到了开始生产之前。",
+      "",
+      "这项把发货放在最前、样品批准放在最后。"
+    ],
+    "errors": [
+      "遗漏前置步骤",
+      "颠倒步骤顺序",
+      "",
+      "颠倒步骤顺序"
+    ],
+    "reply": "So sample approval comes first, then production, and then shipment. Is that right?"
+  },
+  {
+    "id": "owner-1",
+    "skill": "owner",
+    "en": "Lena will email the updated quote by Tuesday. I'll arrange the review meeting for Thursday.",
+    "q": "谁负责发送新版报价，截止何时？",
+    "opts": [
+      "The speaker will send it by Thursday.",
+      "Lena will send it by Thursday.",
+      "The speaker will send it by Tuesday.",
+      "Lena will send it by Tuesday."
+    ],
+    "a": 3,
+    "why": "第一句明确由 Lena 发报价，最迟周二。第二句中的说话人负责安排周四的评审会。",
+    "miss": [
+      "这项把会议安排的负责人和日期用到了报价发送上。",
+      "Thursday 是评审会日期，报价最迟周二发。",
+      "说话人负责安排会议，发送报价的是 Lena。",
+      ""
+    ],
+    "errors": [
+      "混淆两个行动项",
+      "把会议日期当作发送期限",
+      "混淆行动负责人",
+      ""
+    ],
+    "reply": "So Lena will send the updated quote by Tuesday, and the review meeting is on Thursday. Is that correct?"
+  },
+  {
+    "id": "owner-2",
+    "skill": "owner",
+    "en": "Omar will collect the test results, and Nina will send the summary to the client by Friday.",
+    "q": "谁负责把汇总发给客户，截止何时？",
+    "opts": [
+      "Nina will send the summary by Friday.",
+      "Omar will send the summary by Friday.",
+      "The client will send the summary to Nina by Friday.",
+      "Nina will start collecting results on Friday."
+    ],
+    "a": 0,
+    "why": "Omar 负责收集测试结果，Nina 负责向客户发送汇总，by Friday 表示最迟周五发出。",
+    "miss": [
+      "",
+      "这项把收集数据的人当作发送汇总的人。",
+      "这项交换了发送人与收件人。",
+      "这项把发送截止时间改成了开始收集结果的时间。"
+    ],
+    "errors": [
+      "",
+      "混淆行动负责人",
+      "混淆发送人与收件人",
+      "混淆开始与完成"
+    ],
+    "reply": "Just to confirm, Nina will send the summary to the client by Friday."
+  }
+];
+const skills = [
+  {id:'basis', name:'数字与推算依据'},
+  {id:'condition', name:'审批条件与时间'},
+  {id:'criteria', name:'验收合格条件'},
+  {id:'focus', name:'客户关注重点'},
+  {id:'sequence', name:'动作先后顺序'},
+  {id:'owner', name:'责任人与截止时间'}
+];
+const originalErrors = [
+  ['把比较数字当作解释来源','把影响当作计算过程','','把复核当作解释来源'],
+  ['','改变完成时间','忽略条件限制','混淆开始与完成'],
+  ['把复核原因当作合格条件','把负责人当作合格条件','把失败处理当作合格条件',''],
+  ['把成本当作主要顾虑','','忽略长期时间范围','把维护成本当作可靠性'],
+  ['颠倒步骤顺序','颠倒步骤顺序','','颠倒步骤顺序'],
+  ['','混淆发送人与收件人','把会议日期当作发送期限','混淆审批人与发送人']
+];
+lessons.forEach((question, i) => Object.assign(question, {
+  id:'day1-' + (i + 1), skill:skills[i].id, errors:originalErrors[i],
+  audioRoot:'audio/day1-v1/', audioId:i + 1
+}));
+practiceBank.forEach((question, i) => Object.assign(question, {
+  audioRoot:'audio/practice-v1/', audioId:i + 1
+}));
+const questionById = Object.fromEntries([...lessons, ...practiceBank].map(question => [question.id, question]));
+const stateKey = 'english-meeting-learning-v1';
+function readState() {
+  try { return JSON.parse(localStorage.getItem(stateKey) || 'null'); }
+  catch (error) { return null; }
 }
-let answers = lessons.map((lesson, i) => {
-  const answer = saved?.answers?.[i];
-  return Number.isInteger(answer) && answer >= 0 && answer < lesson.opts.length ? answer : null;
+function validHistory(value) {
+  if (!Array.isArray(value)) return [];
+  return value.filter(event => {
+    const question = questionById[event?.qid];
+    return question && Array.isArray(question.opts) && typeof event.round === 'string' && /^[a-zA-Z0-9-]{1,80}$/.test(event.round)
+      && Number.isInteger(event.choice) && event.choice >= 0 && event.choice < question.opts.length
+      && Number.isFinite(event.at);
+  }).slice(-600);
+}
+function readChallenge() {
+  try {
+    const hash = location.hash;
+    if (!hash.startsWith('#pk=') || hash.length > 300) return null;
+    const value = JSON.parse(atob(hash.slice(4).replace(/-/g, '+').replace(/_/g, '/')));
+    return value.v === 1 && value.set === 'day1-v22' && Number.isInteger(value.score)
+      && value.score >= 0 && value.score <= lessons.length ? value : null;
+  } catch (error) { return null; }
+}
+function newRoundId() {
+  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+}
+let incomingChallenge = readChallenge();
+const stored = readState();
+let history = validHistory(stored?.history);
+let savedRound = stored?.round;
+if (!savedRound) {
+  try {
+    const legacy = JSON.parse(localStorage.getItem('english-meeting-day1-answers-v2') || 'null');
+    savedRound = {mode:'day1', idx:legacy?.idx, answers:legacy?.answers};
+  } catch (error) { savedRound = {}; }
+}
+let mode = savedRound?.mode === 'practice' ? 'practice' : 'day1';
+const savedIds = savedRound?.questionIds;
+let activeLessons = mode === 'practice' && Array.isArray(savedIds) && savedIds.length > 0
+  && savedIds.length <= 3 && new Set(savedIds).size === savedIds.length
+  && savedIds.every(id => practiceBank.some(question => question.id === id))
+  ? savedIds.map(id => questionById[id]) : lessons;
+if (activeLessons === lessons) mode = 'day1';
+let roundId = typeof savedRound?.id === 'string' && /^[a-zA-Z0-9-]{1,80}$/.test(savedRound.id) ? savedRound.id : newRoundId();
+let challengerScore = mode === 'day1' && Number.isInteger(savedRound?.challengerScore)
+  && savedRound.challengerScore >= 0 && savedRound.challengerScore <= lessons.length ? savedRound.challengerScore : null;
+let answers = activeLessons.map((question, i) => {
+  const value = savedRound?.answers?.[i];
+  return Number.isInteger(value) && value >= 0 && value < question.opts.length ? value : null;
 });
-let idx = Number.isInteger(saved?.idx) && saved.idx >= 0 && saved.idx <= lessons.length ? saved.idx : 0;
+let firstAnswers = activeLessons.map(question => history.find(event => event.round === roundId && event.qid === question.id)?.choice ?? null);
+let idx = Number.isInteger(savedRound?.idx) && savedRound.idx >= 0 && savedRound.idx <= activeLessons.length ? savedRound.idx : 0;
 let selected = answers[idx] ?? null;
 let checked = selected !== null;
 const app = document.getElementById('app');
 const audioStatus = document.getElementById('audioStatus');
 const stopButton = document.getElementById('stopAudio');
+
+function save() {
+  try {
+    const merged = new Map();
+    for (const event of [...validHistory(readState()?.history), ...history]) {
+      const key = event.round + ':' + event.qid;
+      const previous = merged.get(key);
+      if (!previous || event.at < previous.at) merged.set(key, event);
+    }
+    history = [...merged.values()].sort((a, b) => a.at - b.at).slice(-600);
+    firstAnswers = activeLessons.map(question => history.find(event => event.round === roundId && event.qid === question.id)?.choice ?? null);
+    localStorage.setItem(stateKey, JSON.stringify({history, round:{
+      id:roundId, mode, questionIds:activeLessons.map(question => question.id), idx, answers, challengerScore
+    }}));
+  } catch (error) {
+    document.getElementById('storageStatus').textContent = '浏览器未能保存学习记录，本次仍可继续练习。';
+  }
+}
+
+function startRound(nextMode, questions, opponent = null) {
+  stopPlayback();
+  mode = nextMode;
+  activeLessons = questions;
+  roundId = newRoundId();
+  challengerScore = opponent;
+  answers = questions.map(() => null);
+  firstAnswers = questions.map(() => null);
+  idx = 0;
+  selected = null;
+  checked = false;
+  save();
+  render();
+  app.scrollIntoView({block:'start'});
+}
+
+function skillStats() {
+  return skills.map(skill => {
+    const events = history.filter(event => questionById[event.qid].skill === skill.id);
+    const recent = events.slice(-3);
+    const mistakes = events.filter(event => event.choice !== questionById[event.qid].a);
+    const counts = new Map();
+    for (const event of mistakes) {
+      const label = questionById[event.qid].errors[event.choice];
+      counts.set(label, (counts.get(label) || 0) + 1);
+    }
+    return {...skill, total:events.length, correct:events.length - mistakes.length,
+      recentCorrect:recent.filter(event => event.choice === questionById[event.qid].a).length,
+      recentCount:recent.length, weak:recent.some(event => event.choice !== questionById[event.qid].a),
+      errors:[...counts.entries()].sort((a, b) => b[1] - a[1])};
+  });
+}
+
+function choosePractice() {
+  const stats = skillStats();
+  const weak = stats.filter(skill => skill.weak);
+  const targets = weak.length ? weak : stats;
+  const candidates = practiceBank.filter(question => targets.some(skill => skill.id === question.skill));
+  candidates.sort((a, b) => {
+    const aEvents = history.filter(event => event.qid === a.id);
+    const bEvents = history.filter(event => event.qid === b.id);
+    if ((aEvents.length === 0) !== (bEvents.length === 0)) return aEvents.length ? 1 : -1;
+    const aSkill = stats.find(skill => skill.id === a.skill);
+    const bSkill = stats.find(skill => skill.id === b.skill);
+    const aErrorRate = aSkill.recentCount ? 1 - aSkill.recentCorrect / aSkill.recentCount : 0;
+    const bErrorRate = bSkill.recentCount ? 1 - bSkill.recentCorrect / bSkill.recentCount : 0;
+    return bErrorRate - aErrorRate || (aEvents.at(-1)?.at || 0) - (bEvents.at(-1)?.at || 0);
+  });
+  const chosen = [];
+  for (const question of candidates) {
+    if (chosen.length < 3 && !chosen.some(item => item.skill === question.skill)) chosen.push(question);
+  }
+  for (const question of candidates) {
+    if (chosen.length < 3 && !chosen.includes(question)) chosen.push(question);
+  }
+  return chosen;
+}
+
+function reportMarkup() {
+  const stats = skillStats().filter(skill => skill.total);
+  if (!stats.length) return '<p>从本版开始记录每轮首答。完成新一轮练习后，这里会显示易错点和针对性练习。</p>';
+  return `<h3>你的易错点复盘</h3><p class="small">根据每轮第一次提交的答案及所选干扰项归纳；每项展示最近最多 3 次首答。</p>
+    ${stats.map(skill => `<div class="review-skill"><strong>${skill.name}</strong>
+      <p class="small">最近 ${skill.recentCount} 次答对 ${skill.recentCorrect} 次 · ${skill.weak ? '建议巩固' : '最近首答均正确'}</p>
+      ${skill.errors.length ? `<p>曾出现的混淆<br>${skill.errors.slice(0, 2).map(([label, count]) => `${label}（${count} 次）`).join('、')}</p>` : ''}
+    </div>`).join('')}`;
+}
+
+async function copyText(text, buttonId, successText) {
+  const button = document.getElementById(buttonId);
+  const status = document.getElementById('copyStatus');
+  button.disabled = true;
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = '✓ 已复制';
+    status.textContent = successText;
+    document.getElementById('manualCopy').classList.add('hidden');
+  } catch (error) {
+    status.textContent = '自动复制未成功，请复制下方已选中的文字。';
+    const field = document.getElementById('manualCopy');
+    field.value = text;
+    field.classList.remove('hidden');
+    field.focus();
+    field.select();
+  } finally { button.disabled = false; }
+}
+
+function shareChallenge() {
+  const score = activeLessons.filter((question, i) => firstAnswers[i] === question.a).length;
+  const payload = btoa(JSON.stringify({v:1, set:'day1-v22', score})).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const url = new URL(location.href);
+  url.search = '';
+  url.hash = 'pk=' + payload;
+  const text = `我在英语会议 Day 1 首答答对 ${score}/6 题，来挑战一下！完成后可以复盘自己的易错点。\n${url.href}`;
+  copyText(text, 'challengeShare', '挑战邀请已复制，粘贴发给朋友即可。');
+}
+
+function renderInvitation() {
+  const panel = document.getElementById('challengePanel');
+  panel.classList.toggle('hidden', !incomingChallenge || mode === 'practice');
+  if (!incomingChallenge || mode === 'practice') return;
+  const active = challengerScore === incomingChallenge.score;
+  panel.innerHTML = `<h2>好友挑战 · Day 1</h2><p>好友首答答对 ${incomingChallenge.score} / 6 题。完成同一组题，比较本轮首答成绩。</p>
+    ${active ? `<p class="small">${idx >= activeLessons.length ? '本轮挑战已完成' : '挑战进行中'}，重做本题会保留首答成绩。</p>` : '<button class="primary" id="acceptChallenge">开始挑战</button><p class="small">开始后会开启一轮新题，个人易错点记录继续保留。</p>'}
+    <p class="small">好友成绩来自分享链接，自报成绩供练习交流。</p>`;
+  if (!active) document.getElementById('acceptChallenge').onclick = () => startRound('day1', lessons, incomingChallenge.score);
+}
+
+function renderSummary() {
+  const score = activeLessons.filter((question, i) => answers[i] === question.a).length;
+  const firstCount = firstAnswers.filter(answer => answer !== null).length;
+  const firstScore = activeLessons.filter((question, i) => firstAnswers[i] === question.a).length;
+  const wrong = activeLessons.map((question, i) => firstAnswers[i] !== null && firstAnswers[i] !== question.a ? i : -1).filter(i => i >= 0);
+  const next = choosePractice();
+  const targets = [...new Set(next.map(question => skills.find(skill => skill.id === question.skill).name))].join('、');
+  let comparison = '';
+  if (challengerScore !== null && firstCount === activeLessons.length) {
+    const difference = firstScore - challengerScore;
+    comparison = `<div class="feedback"><strong>你 ${firstScore} / 6 · 好友 ${challengerScore} / 6</strong><br>${difference === 0 ? '这次打成平手' : difference > 0 ? `你多答对 ${difference} 题` : `好友多答对 ${-difference} 题`}。继续练一组自己的易错点。</div>`;
+  }
+  app.innerHTML = `<div class="tag">TRAINING COMPLETE</div><h2>${mode === 'practice' ? '定制练习' : 'Day 1'} 已完成 🎉</h2>
+    <p class="english">${firstCount === activeLessons.length ? `首答 ${firstScore} / ${activeLessons.length} 题` : `当前 ${score} / ${activeLessons.length} 分`}</p>
+    <p class="small">当前练习得分 ${score} / ${activeLessons.length}，按最近一次提交计分。${firstCount === activeLessons.length ? `本轮首答答对 ${firstScore} / ${activeLessons.length} 题，重做不会改变首答记录。` : `本轮记录了 ${firstCount} 道题的首答；旧版已作答题目没有首答记录。`}</p>
+    ${comparison}${reportMarkup()}
+    <div class="practice-card"><h3>下一组，针对你来练</h3><p>${next.length} 道变式情境题，侧重${targets}。</p>
+      <p class="small">优先安排近期易错点和未练过的新情境；近期均答对时安排巩固题。</p>
+      <button class="primary" id="customPractice">开始定制练习</button>
+      ${wrong.length ? '<button class="secondary" id="reviewWrong">复盘本轮首答错题</button>' : ''}</div>
+    <h3>回看本轮题目</h3><div class="actions">${activeLessons.map((question, i) => `<button class="secondary" data-review="${i}">第 ${i + 1} 题 ${firstAnswers[i] !== null && firstAnswers[i] !== question.a ? '首答错题 ✗' : answers[i] === question.a ? '✓' : '✗'}</button>`).join('')}</div>
+    ${mode === 'day1' ? '<h3>今天最值得记住的 4 句话</h3><p>Could you say that again, please?<br>What do you mean by that?<br>Could you walk me through that?<br>So, if I understand correctly, ...</p>' : ''}
+    <div class="actions"><button class="secondary" id="restart">重新训练</button><button class="secondary" id="copy">复制训练结果</button>
+      ${mode === 'day1' && firstCount === lessons.length ? '<button class="secondary" id="challengeShare">邀请好友挑战首答成绩</button>' : ''}
+      ${mode === 'practice' ? '<button class="secondary" id="backDay1">开始 Day 1 新一轮</button>' : ''}</div>
+    <p class="small" id="copyStatus" role="status"></p><textarea class="hidden" id="manualCopy" readonly aria-label="手动复制结果或挑战邀请"></textarea>
+    <p class="small">首答记录只反映这组情境中的选择判断，能力变化可通过不同情境的复练继续观察。易错点保存在当前浏览器。</p>`;
+  document.getElementById('customPractice').onclick = () => startRound('practice', next);
+  if (wrong.length) document.getElementById('reviewWrong').onclick = () => goTo(wrong[0]);
+  document.getElementById('restart').onclick = () => startRound(mode, activeLessons, challengerScore);
+  document.getElementById('copy').onclick = () => copyText(`${mode === 'practice' ? '定制练习' : '英语会议不掉线 Day 1'}：${score}/${activeLessons.length} 分。${firstCount ? `本轮首答 ${firstScore}/${firstCount}。` : '本轮没有首答记录。'}${challengerScore !== null ? `好友首答 ${challengerScore}/6。` : ''}`, 'copy', '训练结果已复制。');
+  if (document.getElementById('challengeShare')) document.getElementById('challengeShare').onclick = shareChallenge;
+  if (document.getElementById('backDay1')) document.getElementById('backDay1').onclick = () => startRound('day1', lessons);
+  document.querySelectorAll('[data-review]').forEach(button => button.onclick = () => goTo(Number(button.dataset.review)));
+}
+
 let playbackId = 0;
 let audioTimer = null;
 let activeAudio = null;
 
-function save() {
-  try {
-    localStorage.setItem(progressKey, JSON.stringify({idx, answers}));
-  } catch (error) {
-    document.getElementById('storageStatus').textContent = '浏览器未能保存进度，本次仍可继续练习。';
-  }
-}
-
 function updateProgress() {
   const count = answers.filter(answer => answer !== null).length;
-  document.getElementById('counter').textContent = `已作答 ${count} / ${lessons.length}`;
-  document.getElementById('progress').style.width = `${count / lessons.length * 100}%`;
+  document.getElementById('counter').textContent = `已作答 ${count} / ${activeLessons.length}`;
+  document.getElementById('progress').style.width = `${count / activeLessons.length * 100}%`;
 }
 
 function stopPlayback(message = '') {
@@ -187,8 +732,9 @@ function stopPlayback(message = '') {
 function playRecording(kind, button, slow = false) {
   stopPlayback();
   const id = playbackId;
-  const filename = `${kind}-${idx + 1}${slow ? '-slow' : ''}.mp3`;
-  const recording = new Audio(new URL(`audio/day1-v1/${filename}`, document.baseURI).href);
+  const lesson = activeLessons[idx];
+  const filename = `${kind}-${lesson.audioId}${slow ? '-slow' : ''}.mp3`;
+  const recording = new Audio(new URL(`${lesson.audioRoot}${filename}`, document.baseURI).href);
   activeAudio = recording;
   button.textContent = '正在加载音频…';
   stopButton.disabled = false;
@@ -233,31 +779,8 @@ function goTo(index) {
   render();
 }
 
-async function copyResult(score) {
-  const text = `英语会议不掉线 Day 1：${score}/${lessons.length} 分`;
-  const button = document.getElementById('copy');
-  const status = document.getElementById('copyStatus');
-  button.disabled = true;
-  try {
-    await navigator.clipboard.writeText(text);
-    button.textContent = '✓ 已复制';
-    status.textContent = '训练结果已复制，可以粘贴分享。';
-    document.getElementById('manualCopy').classList.add('hidden');
-  } catch (error) {
-    button.textContent = '重试复制';
-    status.textContent = '自动复制未成功，请复制下方已选中的结果文字。';
-    const field = document.getElementById('manualCopy');
-    field.value = text;
-    field.classList.remove('hidden');
-    field.focus();
-    field.select();
-  } finally {
-    button.disabled = false;
-  }
-}
-
 function showFeedback() {
-  const lesson = lessons[idx];
+  const lesson = activeLessons[idx];
   const correct = selected === lesson.a;
   document.querySelectorAll('.option').forEach(button => {
     const option = Number(button.dataset.i);
@@ -272,6 +795,7 @@ function showFeedback() {
     <div class="feedback ${correct ? 'correct' : 'incorrect'}" role="status">
       <strong>${correct ? '✓ 答对了' : '✗ 答错了'} · 正确答案 ${String.fromCharCode(65 + lesson.a)}</strong><br>
       ${lesson.why}${correct ? '' : '<br>你选的这一项：' + lesson.miss[selected]}<br><br>
+      ${firstAnswers[idx] !== null && firstAnswers[idx] !== selected ? `<p class="small">本轮首答选 ${String.fromCharCode(65 + firstAnswers[idx])}。${firstAnswers[idx] !== lesson.a ? '首答时，' + lesson.miss[firstAnswers[idx]] : '首答正确。'}</p>` : ''}
       <strong>建议开口练习</strong><br>${lesson.reply}<br>
       <button class="secondary" id="replyAudio" data-audio-label="▶ 听示范回应" style="margin-top:10px">▶ 听示范回应</button>
     </div>`;
@@ -283,37 +807,19 @@ function showFeedback() {
 
 function render() {
   updateProgress();
-  document.getElementById('audioControls').classList.toggle('hidden', idx >= lessons.length);
-  if (idx >= lessons.length) {
-    const score = lessons.filter((lesson, i) => answers[i] === lesson.a).length;
-    app.innerHTML = `
-      <div class="tag">TRAINING COMPLETE</div><h2>Day 1 已完成 🎉</h2>
-      <p class="english">${score} / ${lessons.length} 分</p>
-      <p class="small">按每题最近一次提交的答案计分。</p>
-      <p>${score >= 5 ? '很好！你能识别大部分会议澄清场景。' : '建议回看错题，再开口练一遍关键澄清表达。'}</p>
-      <h3>回看题目</h3><div class="actions">
-      ${lessons.map((lesson, i) => `<button class="secondary" data-review="${i}">第 ${i + 1} 题 ${answers[i] === lesson.a ? '✓' : '✗'}</button>`).join('')}
-      </div>
-      <h3>今天最值得记住的 4 句话</h3>
-      <p>Could you say that again, please?<br>What do you mean by that?<br>Could you walk me through that?<br>So, if I understand correctly, ...</p>
-      <div class="actions"><button class="primary" id="restart">重新训练</button><button class="secondary" id="copy">复制训练结果</button></div>
-      <p class="small" id="copyStatus" role="status"></p>
-      <textarea class="hidden" id="manualCopy" readonly aria-label="手动复制训练结果"></textarea>
-      <p class="small">提示：这是选择题训练，不等同于真实语音听辨能力测评。</p>`;
-    document.getElementById('restart').onclick = () => {
-      answers = lessons.map(() => null);
-      goTo(0);
-    };
-    document.getElementById('copy').onclick = () => copyResult(score);
-    document.querySelectorAll('[data-review]').forEach(button => {
-      button.onclick = () => goTo(Number(button.dataset.review));
-    });
+  document.getElementById('audioControls').classList.toggle('hidden', idx >= activeLessons.length);
+  renderInvitation();
+  document.getElementById('sessionIntro').textContent = mode === 'practice' ? '定制练习｜换一个情境，练清自己的易错点。' : 'Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？';
+  document.getElementById('roundMeta').textContent = `${activeLessons.length} 道情境题 · ${mode === 'practice' ? '针对易错点复练' : '含听读练习约 15 分钟'}`;
+  document.getElementById('dayTag').textContent = mode === 'practice' ? 'ENGLISH MEETING LAB · PERSONAL PRACTICE' : 'ENGLISH MEETING LAB · DAY 01';
+  if (idx >= activeLessons.length) {
+    renderSummary();
     return;
   }
-  const lesson = lessons[idx];
+  const lesson = activeLessons[idx];
   const complete = answers.every(answer => answer !== null);
   app.innerHTML = `
-    <div class="tag">SCENARIO ${String(idx + 1).padStart(2, '0')} / 06</div>
+    <div class="tag">SCENARIO ${String(idx + 1).padStart(2, '0')} / ${String(activeLessons.length).padStart(2, '0')}</div>
     <h2>${lesson.scene}</h2><p class="small">先点击播放，尽量不要看英文原句。</p>
     <div class="actions">
       <button class="primary" id="listen" data-audio-label="▶ 播放英文">▶ 播放英文</button>
@@ -325,10 +831,10 @@ function render() {
     ${lesson.opts.map((option, i) => `<button class="option" data-i="${i}">${String.fromCharCode(65 + i)}. ${option}</button>`).join('')}
     </div><div id="result"></div><div class="actions">
       <button class="primary" id="check" disabled>确认答案</button>
-      <button class="secondary hidden" id="next">${idx === lessons.length - 1 ? '查看成绩' : '下一题 →'}</button>
+      <button class="secondary hidden" id="next">${idx === activeLessons.length - 1 ? '查看成绩' : '下一题 →'}</button>
       <button class="secondary hidden" id="retry">重做本题</button>
       ${idx > 0 ? '<button class="secondary" id="previous">← 上一题</button>' : ''}
-      ${complete && idx !== lessons.length - 1 ? '<button class="secondary" id="summary">返回成绩</button>' : ''}
+      ${complete && idx !== activeLessons.length - 1 ? '<button class="secondary" id="summary">返回成绩</button>' : ''}
     </div>`;
   document.getElementById('listen').onclick = event => playRecording('scene', event.currentTarget);
   document.getElementById('slower').onclick = event => playRecording('scene', event.currentTarget, true);
@@ -347,6 +853,9 @@ function render() {
   });
   document.getElementById('check').onclick = () => {
     if (selected === null || checked) return;
+    if (!history.some(event => event.round === roundId && event.qid === activeLessons[idx].id)) {
+      history.push({round:roundId, qid:activeLessons[idx].id, choice:selected, at:Date.now()});
+    }
     answers[idx] = selected;
     checked = true;
     save();
@@ -361,10 +870,14 @@ function render() {
     render();
   };
   if (idx > 0) document.getElementById('previous').onclick = () => goTo(idx - 1);
-  if (document.getElementById('summary')) document.getElementById('summary').onclick = () => goTo(lessons.length);
+  if (document.getElementById('summary')) document.getElementById('summary').onclick = () => goTo(activeLessons.length);
   if (checked) showFeedback();
 }
 
+window.addEventListener('hashchange', () => {
+  incomingChallenge = readChallenge();
+  renderInvitation();
+});
 stopButton.onclick = () => stopPlayback('已停止播放');
 window.addEventListener('pagehide', () => stopPlayback());
 document.addEventListener('visibilitychange', () => {
