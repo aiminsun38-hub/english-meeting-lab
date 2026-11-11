@@ -1,4 +1,16 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>英语会议不掉线 · Day 1</title><style>:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#e8efff;background:#0b1220}*{box-sizing:border-box}body{margin:0}main{max-width:760px;margin:auto;padding:28px 18px 70px}.tag{color:#7dd3fc;font-size:13px;letter-spacing:.12em}.hero{padding:24px 0}h1{font-size:clamp(28px,5vw,43px);margin:12px 0}p{line-height:1.7;color:#b6c4d9}.card{background:#162239;border:1px solid #2a3c59;border-radius:20px;padding:22px;margin:16px 0}.meta{display:flex;justify-content:space-between;color:#a8b8d1;font-size:13px}.bar{height:7px;border-radius:10px;background:#2a3c59;overflow:hidden;margin-top:12px}.bar>div{height:100%;background:#38bdf8;transition:width .2s}.english{font-size:23px;line-height:1.55;color:white;margin:18px 0}.option{width:100%;display:block;text-align:left;padding:15px;border-radius:12px;border:1px solid #40516e;background:#1b2b46;color:#e8efff;margin:9px 0;cursor:pointer;font-size:15px}.option:hover{border-color:#38bdf8}.option.selected{border-color:#38bdf8;background:#123d57}.option:disabled{opacity:.85;cursor:default}button.primary{background:#38bdf8;border:0;color:#082033;font-weight:750;padding:13px 22px;border-radius:12px;cursor:pointer;font-size:15px}button.secondary{background:transparent;border:1px solid #56718e;color:#e8efff;padding:12px 18px;border-radius:12px;cursor:pointer}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.feedback{border-left:3px solid #38bdf8;padding:12px 16px;background:#0c293c;margin:15px 0;line-height:1.8}.small{font-size:13px;color:#a8b8d1}.hidden{display:none}textarea{width:100%;min-height:105px;border:1px solid #40516e;background:#0b172a;color:white;border-radius:12px;padding:12px;font-size:16px}footer{color:#8da1bd;font-size:12px;line-height:1.7;margin-top:32px}</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>约 15 分钟 · 6 道情境题</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><section id="app" class="card"></section><footer>© English Meeting Lab · MVP V0.1。语音朗读使用设备浏览器内置语音功能，发音和可用性取决于设备；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>英语会议不掉线 · Day 1</title><style>:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#e8efff;background:#0b1220}*{box-sizing:border-box}body{margin:0}main{max-width:760px;margin:auto;padding:28px 18px 70px}.tag{color:#7dd3fc;font-size:13px;letter-spacing:.12em}.hero{padding:24px 0}h1{font-size:clamp(28px,5vw,43px);margin:12px 0}p{line-height:1.7;color:#b6c4d9}.card{background:#162239;border:1px solid #2a3c59;border-radius:20px;padding:22px;margin:16px 0}.meta{display:flex;justify-content:space-between;color:#a8b8d1;font-size:13px}.bar{height:7px;border-radius:10px;background:#2a3c59;overflow:hidden;margin-top:12px}.bar>div{height:100%;background:#38bdf8;transition:width .2s}.english{font-size:23px;line-height:1.55;color:white;margin:18px 0}.option{width:100%;display:block;text-align:left;padding:15px;border-radius:12px;border:1px solid #40516e;background:#1b2b46;color:#e8efff;margin:9px 0;cursor:pointer;font-size:15px}.option:hover{border-color:#38bdf8}.option.selected{border-color:#38bdf8;background:#123d57}.option:disabled{opacity:.85;cursor:default}button.primary{background:#38bdf8;border:0;color:#082033;font-weight:750;padding:13px 22px;border-radius:12px;cursor:pointer;font-size:15px}button.secondary{background:transparent;border:1px solid #56718e;color:#e8efff;padding:12px 18px;border-radius:12px;cursor:pointer}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.feedback{border-left:3px solid #38bdf8;padding:12px 16px;background:#0c293c;margin:15px 0;line-height:1.8}.small{font-size:13px;color:#a8b8d1}.hidden{display:none}textarea{width:100%;min-height:105px;border:1px solid #40516e;background:#0b172a;color:white;border-radius:12px;padding:12px;font-size:16px}footer{color:#8da1bd;font-size:12px;line-height:1.7;margin-top:32px}
+.meta{flex-wrap:wrap;gap:8px}.meta #counter{white-space:nowrap}
+button,textarea{font-family:inherit}button{touch-action:manipulation}
+button:focus-visible{outline:3px solid #facc15;outline-offset:3px}
+button:disabled{cursor:default}.option{line-height:1.6;overflow-wrap:anywhere}
+.option.correct{border-color:#4ade80;background:#123b2c;color:#dcfce7}
+.option.incorrect{border-color:#fb7185;background:#491c2b;color:#ffe4e6}
+.feedback.correct{border-color:#4ade80}.feedback.correct strong:first-child{color:#86efac}
+.feedback.incorrect{border-color:#fb7185}.feedback.incorrect strong:first-child{color:#fda4af}
+#audioControls{margin-bottom:16px}#audioStatus{display:block;min-height:22px;margin:0 0 8px}
+#stopAudio:disabled{opacity:.5}#manualCopy{min-height:70px}
+@media(max-width:420px){.card{padding:16px}.english{font-size:20px}}
+</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.1。语音朗读使用设备浏览器内置语音功能，发音和可用性取决于设备；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
 const lessons = [
   {
     scene: "客户看完了你展示的测算表",
@@ -85,10 +97,10 @@ const lessons = [
     en: "First, we will review the specifications. Then we will run a short trial and share the results.",
     q: "你准备请对方再讲一遍。哪句复述的三步顺序与刚才一致？",
     opts: [
-      "Could we go over that again: run the trial, review the specs, then share the findings?",
-      "Could we go over that again: review the specs, share the findings, then run the trial?",
-      "Could we go over that again: review the specs, run the trial, then share the findings?",
-      "Could we go over that again: run the trial, share the findings, then review the specs?"
+      "Could we go over that again: run the trial, review the specs, then share the results?",
+      "Could we go over that again: review the specs, share the results, then run the trial?",
+      "Could we go over that again: review the specs, run the trial, then share the results?",
+      "Could we go over that again: run the trial, share the results, then review the specs?"
     ],
     a: 2,
     why: "First 引出审核规格，Then 引出试运行，最后才有这次试运行的结果可分享。四句请求都很礼貌，要核对的是动作的先后。",
@@ -122,34 +134,233 @@ const lessons = [
   }
 ];
 const progressKey = 'english-meeting-day1-answers-v2';
-const saved = JSON.parse(localStorage.getItem(progressKey) || 'null');
-let answers = saved?.answers || [];
-let idx = saved?.idx || 0;
+let saved = null;
+try {
+  saved = JSON.parse(localStorage.getItem(progressKey) || 'null');
+} catch (error) {
+  // An unreadable saved value starts a fresh session.
+}
+let answers = lessons.map((lesson, i) => {
+  const answer = saved?.answers?.[i];
+  return Number.isInteger(answer) && answer >= 0 && answer < lesson.opts.length ? answer : null;
+});
+let idx = Number.isInteger(saved?.idx) && saved.idx >= 0 && saved.idx <= lessons.length ? saved.idx : 0;
 let selected = answers[idx] ?? null;
 let checked = selected !== null;
 const app = document.getElementById('app');
+const audioStatus = document.getElementById('audioStatus');
+const stopButton = document.getElementById('stopAudio');
+let speechId = 0;
+let speechTimer = null;
+let utterance = null;
 
 function save() {
-  localStorage.setItem(progressKey, JSON.stringify({idx, answers}));
+  try {
+    localStorage.setItem(progressKey, JSON.stringify({idx, answers}));
+  } catch (error) {
+    document.getElementById('storageStatus').textContent = '浏览器未能保存进度，本次仍可继续练习。';
+  }
 }
 
-function speak(t){if(!('speechSynthesis'in window)){alert('当前浏览器不支持语音朗读，请使用 Chrome、Safari 或 Edge。');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}function render(){document.getElementById('counter').textContent=Math.min(idx,6)+' / 6';document.getElementById('progress').style.width=(Math.min(idx,6)/6*100)+'%';if(idx>=lessons.length){
-  const score = lessons.filter((lesson, i) => answers[i] === lesson.a).length;
-  app.innerHTML=`<div class="tag">TRAINING COMPLETE</div><h2>Day 1 已完成 🎉</h2><p class="english">${score} / 6 分</p><p>${score>=5?'很好！你能识别大部分会议澄清场景。':'建议再练习一次，把关键澄清表达练熟。'}</p><h3>今天最值得记住的 4 句话</h3><p>Could you say that again, please?<br>What do you mean by that?<br>Could you walk me through that?<br>So, if I understand correctly, ...</p><div class="actions"><button class="primary" id="restart">重新训练</button><button class="secondary" id="copy">复制训练结果</button></div><p class="small">提示：这是选择题训练，不等同于真实语音听辨能力测评。</p>`;document.getElementById('restart').onclick=()=>{idx=0;answers=[];selected=null;checked=false;save();render()};document.getElementById('copy').onclick=()=>{const t=`英语会议不掉线 Day 1：${score}/6 分`;navigator.clipboard?.writeText(t).then(()=>alert('已复制'),()=>prompt('复制结果：',t))||prompt('复制结果：',t)};return}const l=lessons[idx];app.innerHTML=`<div class="tag">SCENARIO ${String(idx+1).padStart(2,'0')} / 06</div><h2>${l.scene}</h2><p class="small">先点击播放，尽量不要看英文原句。</p><div class="actions"><button class="primary" id="listen">▶ 播放英文</button><button class="secondary" id="slower">慢速播放</button><button class="secondary" id="show">显示 / 隐藏原文</button></div><div class="english hidden" id="transcript">${l.en}</div><h3>${l.q}</h3><div id="opts">${l.opts.map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div><div id="result"></div><div class="actions"><button class="primary" id="check" disabled>确认答案</button><button class="secondary hidden" id="next">${idx===5?'查看成绩':'下一题 →'}</button></div>`;document.getElementById('listen').onclick=()=>speak(l.en);document.getElementById('slower').onclick=()=>{if(!('speechSynthesis'in window))return alert('设备不支持语音');speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(l.en);u.lang='en-US';u.rate=.65;speechSynthesis.speak(u)};document.getElementById('show').onclick=()=>document.getElementById('transcript').classList.toggle('hidden');document.querySelectorAll('.option').forEach(b=>b.onclick=()=>{if(checked)return;selected=Number(b.dataset.i);document.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');document.getElementById('check').disabled=false});function showFeedback() {
-  document.querySelectorAll('.option').forEach(button => {
-    button.disabled = true;
-    button.classList.toggle('selected', Number(button.dataset.i) === selected);
+function updateProgress() {
+  const count = answers.filter(answer => answer !== null).length;
+  document.getElementById('counter').textContent = `已作答 ${count} / ${lessons.length}`;
+  document.getElementById('progress').style.width = `${count / lessons.length * 100}%`;
+}
+
+function stopSpeech(message = '') {
+  speechId++;
+  clearTimeout(speechTimer);
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  utterance = null;
+  document.querySelectorAll('[data-audio-label]').forEach(button => {
+    button.textContent = button.dataset.audioLabel;
   });
-  document.getElementById('result').innerHTML=`<div class="feedback"><strong>${selected===l.a?'✓ 回答正确':'正确答案：'+String.fromCharCode(65+l.a)}</strong><br>${l.why}${selected !== l.a ? '<br>你选的这一项：' + l.miss[selected] : ''}<br><br><strong>建议开口练习：</strong><br>${l.reply}<br><button class="secondary" id="replyAudio" style="margin-top:10px">▶ 听示范回应</button></div>`;document.getElementById('replyAudio').onclick=()=>speak(l.reply);document.getElementById('check').classList.add('hidden');document.getElementById('next').classList.remove('hidden');}
-if (checked) showFeedback();
+  stopButton.disabled = true;
+  audioStatus.textContent = message;
+}
 
-document.getElementById('check').onclick = () => {
-  if (selected === null || checked) return;
-  answers[idx] = selected;
-  checked = true;
+function speak(text, button, rate = .85) {
+  stopSpeech();
+  if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+    audioStatus.textContent = '当前浏览器不支持朗读，请尝试 Chrome、Safari 或 Edge。';
+    return;
+  }
+  const id = speechId;
+  const speech = new SpeechSynthesisUtterance(text);
+  utterance = speech;
+  speech.lang = 'en-US';
+  speech.rate = rate;
+  button.textContent = '正在准备播放…';
+  stopButton.disabled = false;
+  audioStatus.textContent = '正在准备播放…';
+  speech.onstart = () => {
+    if (id !== speechId) return;
+    clearTimeout(speechTimer);
+    button.textContent = '正在播放…';
+    audioStatus.textContent = '正在播放。如果听不到，请检查设备音量和输出设备。';
+  };
+  speech.onend = () => {
+    if (id === speechId) stopSpeech('播放结束');
+  };
+  speech.onerror = () => {
+    if (id === speechId) stopSpeech('未能播放语音。请检查设备声音，或换用其他浏览器后重试。');
+  };
+  speechTimer = setTimeout(() => {
+    if (id === speechId) stopSpeech('语音未能启动。请检查设备声音，或换用其他浏览器后重试。');
+  }, 10000);
+  try {
+    speechSynthesis.speak(speech);
+  } catch (error) {
+    stopSpeech('未能播放语音，请换用其他浏览器后重试。');
+  }
+}
+
+function goTo(index) {
+  stopSpeech();
+  idx = index;
+  selected = answers[idx] ?? null;
+  checked = selected !== null;
   save();
-  showFeedback();
-};
+  render();
+}
 
-document.getElementById('next').onclick=()=>{idx++;selected=null;checked=false;save();render()}}render();
+async function copyResult(score) {
+  const text = `英语会议不掉线 Day 1：${score}/${lessons.length} 分`;
+  const button = document.getElementById('copy');
+  const status = document.getElementById('copyStatus');
+  button.disabled = true;
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = '✓ 已复制';
+    status.textContent = '训练结果已复制，可以粘贴分享。';
+    document.getElementById('manualCopy').classList.add('hidden');
+  } catch (error) {
+    button.textContent = '重试复制';
+    status.textContent = '自动复制未成功，请复制下方已选中的结果文字。';
+    const field = document.getElementById('manualCopy');
+    field.value = text;
+    field.classList.remove('hidden');
+    field.focus();
+    field.select();
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function showFeedback() {
+  const lesson = lessons[idx];
+  const correct = selected === lesson.a;
+  document.querySelectorAll('.option').forEach(button => {
+    const option = Number(button.dataset.i);
+    button.disabled = true;
+    button.classList.remove('selected');
+    button.classList.toggle('correct', option === lesson.a);
+    button.classList.toggle('incorrect', option === selected && !correct);
+    const mark = option === lesson.a ? '✓ 正确答案 · ' : option === selected ? '✗ 你的选择 · ' : '';
+    button.textContent = `${mark}${String.fromCharCode(65 + option)}. ${lesson.opts[option]}`;
+  });
+  document.getElementById('result').innerHTML = `
+    <div class="feedback ${correct ? 'correct' : 'incorrect'}" role="status">
+      <strong>${correct ? '✓ 答对了' : '✗ 答错了'} · 正确答案 ${String.fromCharCode(65 + lesson.a)}</strong><br>
+      ${lesson.why}${correct ? '' : '<br>你选的这一项：' + lesson.miss[selected]}<br><br>
+      <strong>建议开口练习</strong><br>${lesson.reply}<br>
+      <button class="secondary" id="replyAudio" data-audio-label="▶ 听示范回应" style="margin-top:10px">▶ 听示范回应</button>
+    </div>`;
+  document.getElementById('replyAudio').onclick = event => speak(lesson.reply, event.currentTarget);
+  document.getElementById('check').classList.add('hidden');
+  document.getElementById('next').classList.remove('hidden');
+  document.getElementById('retry').classList.remove('hidden');
+}
+
+function render() {
+  updateProgress();
+  document.getElementById('audioControls').classList.toggle('hidden', idx >= lessons.length);
+  if (idx >= lessons.length) {
+    const score = lessons.filter((lesson, i) => answers[i] === lesson.a).length;
+    app.innerHTML = `
+      <div class="tag">TRAINING COMPLETE</div><h2>Day 1 已完成 🎉</h2>
+      <p class="english">${score} / ${lessons.length} 分</p>
+      <p class="small">按每题最近一次提交的答案计分。</p>
+      <p>${score >= 5 ? '很好！你能识别大部分会议澄清场景。' : '建议回看错题，再开口练一遍关键澄清表达。'}</p>
+      <h3>回看题目</h3><div class="actions">
+      ${lessons.map((lesson, i) => `<button class="secondary" data-review="${i}">第 ${i + 1} 题 ${answers[i] === lesson.a ? '✓' : '✗'}</button>`).join('')}
+      </div>
+      <h3>今天最值得记住的 4 句话</h3>
+      <p>Could you say that again, please?<br>What do you mean by that?<br>Could you walk me through that?<br>So, if I understand correctly, ...</p>
+      <div class="actions"><button class="primary" id="restart">重新训练</button><button class="secondary" id="copy">复制训练结果</button></div>
+      <p class="small" id="copyStatus" role="status"></p>
+      <textarea class="hidden" id="manualCopy" readonly aria-label="手动复制训练结果"></textarea>
+      <p class="small">提示：这是选择题训练，不等同于真实语音听辨能力测评。</p>`;
+    document.getElementById('restart').onclick = () => {
+      answers = lessons.map(() => null);
+      goTo(0);
+    };
+    document.getElementById('copy').onclick = () => copyResult(score);
+    document.querySelectorAll('[data-review]').forEach(button => {
+      button.onclick = () => goTo(Number(button.dataset.review));
+    });
+    return;
+  }
+  const lesson = lessons[idx];
+  const complete = answers.every(answer => answer !== null);
+  app.innerHTML = `
+    <div class="tag">SCENARIO ${String(idx + 1).padStart(2, '0')} / 06</div>
+    <h2>${lesson.scene}</h2><p class="small">先点击播放，尽量不要看英文原句。</p>
+    <div class="actions">
+      <button class="primary" id="listen" data-audio-label="▶ 播放英文">▶ 播放英文</button>
+      <button class="secondary" id="slower" data-audio-label="慢速播放">慢速播放</button>
+      <button class="secondary" id="show" aria-expanded="false" aria-controls="transcript">显示 / 隐藏原文</button>
+    </div>
+    <div class="english hidden" id="transcript">${lesson.en}</div>
+    <h3>${lesson.q}</h3><div id="opts">
+    ${lesson.opts.map((option, i) => `<button class="option" data-i="${i}">${String.fromCharCode(65 + i)}. ${option}</button>`).join('')}
+    </div><div id="result"></div><div class="actions">
+      <button class="primary" id="check" disabled>确认答案</button>
+      <button class="secondary hidden" id="next">${idx === lessons.length - 1 ? '查看成绩' : '下一题 →'}</button>
+      <button class="secondary hidden" id="retry">重做本题</button>
+      ${idx > 0 ? '<button class="secondary" id="previous">← 上一题</button>' : ''}
+      ${complete && idx !== lessons.length - 1 ? '<button class="secondary" id="summary">返回成绩</button>' : ''}
+    </div>`;
+  document.getElementById('listen').onclick = event => speak(lesson.en, event.currentTarget);
+  document.getElementById('slower').onclick = event => speak(lesson.en, event.currentTarget, .65);
+  document.getElementById('show').onclick = event => {
+    const hidden = document.getElementById('transcript').classList.toggle('hidden');
+    event.currentTarget.setAttribute('aria-expanded', String(!hidden));
+  };
+  document.querySelectorAll('.option').forEach(button => {
+    button.onclick = () => {
+      if (checked) return;
+      selected = Number(button.dataset.i);
+      document.querySelectorAll('.option').forEach(option => option.classList.remove('selected'));
+      button.classList.add('selected');
+      document.getElementById('check').disabled = false;
+    };
+  });
+  document.getElementById('check').onclick = () => {
+    if (selected === null || checked) return;
+    answers[idx] = selected;
+    checked = true;
+    save();
+    updateProgress();
+    showFeedback();
+  };
+  document.getElementById('next').onclick = () => goTo(idx + 1);
+  document.getElementById('retry').onclick = () => {
+    stopSpeech();
+    selected = null;
+    checked = false;
+    render();
+  };
+  if (idx > 0) document.getElementById('previous').onclick = () => goTo(idx - 1);
+  if (document.getElementById('summary')) document.getElementById('summary').onclick = () => goTo(lessons.length);
+  if (checked) showFeedback();
+}
+
+stopButton.onclick = () => stopSpeech('已停止播放');
+window.addEventListener('pagehide', () => stopSpeech());
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) stopSpeech();
+});
+render();
 </script></body></html>
