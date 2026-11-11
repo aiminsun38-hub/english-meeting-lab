@@ -481,6 +481,7 @@ lessons.forEach((question, i) => Object.assign(question, {
   audioRoot:'audio/day1-v1/', audioId:i + 1
 }));
 practiceBank.forEach((question, i) => Object.assign(question, {
+  scene:'针对练习｜' + skills.find(skill => skill.id === question.skill).name,
   audioRoot:'audio/practice-v1/', audioId:i + 1
 }));
 const questionById = Object.fromEntries([...lessons, ...practiceBank].map(question => [question.id, question]));
