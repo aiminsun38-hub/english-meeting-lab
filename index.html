@@ -10,7 +10,7 @@ button:disabled{cursor:default}.option{line-height:1.6;overflow-wrap:anywhere}
 #audioControls{margin-bottom:16px}#audioStatus{display:block;min-height:22px;margin:0 0 8px}
 #stopAudio:disabled{opacity:.5}#manualCopy{min-height:70px}
 @media(max-width:420px){.card{padding:16px}.english{font-size:20px}}
-</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.2。语音朗读使用设备浏览器内置语音功能，发音和可用性取决于设备；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
+</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.3。英语音频为预先生成的 AI 美式英语语音，正常版与慢速版分别制作；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
 const lessons = [
   {
     "scene": "客户看完了你展示的测算表",
@@ -150,9 +150,9 @@ let checked = selected !== null;
 const app = document.getElementById('app');
 const audioStatus = document.getElementById('audioStatus');
 const stopButton = document.getElementById('stopAudio');
-let speechId = 0;
-let speechTimer = null;
-let utterance = null;
+let playbackId = 0;
+let audioTimer = null;
+let activeAudio = null;
 
 function save() {
   try {
@@ -168,11 +168,15 @@ function updateProgress() {
   document.getElementById('progress').style.width = `${count / lessons.length * 100}%`;
 }
 
-function stopSpeech(message = '') {
-  speechId++;
-  clearTimeout(speechTimer);
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
-  utterance = null;
+function stopPlayback(message = '') {
+  playbackId++;
+  clearTimeout(audioTimer);
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio.removeAttribute('src');
+    activeAudio.load();
+    activeAudio = null;
+  }
   document.querySelectorAll('[data-audio-label]').forEach(button => {
     button.textContent = button.dataset.audioLabel;
   });
@@ -180,44 +184,48 @@ function stopSpeech(message = '') {
   audioStatus.textContent = message;
 }
 
-function speak(text, button, rate = .85) {
-  stopSpeech();
-  if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
-    audioStatus.textContent = '当前浏览器不支持朗读，请尝试 Chrome、Safari 或 Edge。';
-    return;
-  }
-  const id = speechId;
-  const speech = new SpeechSynthesisUtterance(text);
-  utterance = speech;
-  speech.lang = 'en-US';
-  speech.rate = rate;
-  button.textContent = '正在准备播放…';
+function playRecording(kind, button, slow = false) {
+  stopPlayback();
+  const id = playbackId;
+  const filename = `${kind}-${idx + 1}${slow ? '-slow' : ''}.mp3`;
+  const recording = new Audio(new URL(`audio/day1-v1/${filename}`, document.baseURI).href);
+  activeAudio = recording;
+  button.textContent = '正在加载音频…';
   stopButton.disabled = false;
-  audioStatus.textContent = '正在准备播放…';
-  speech.onstart = () => {
-    if (id !== speechId) return;
-    clearTimeout(speechTimer);
+  audioStatus.textContent = '正在加载音频…';
+  const waitForAudio = () => {
+    clearTimeout(audioTimer);
+    audioTimer = setTimeout(() => {
+      if (id === playbackId) stopPlayback('音频加载超时，请检查网络后重试。');
+    }, 15000);
+  };
+  recording.onplaying = () => {
+    if (id !== playbackId) return;
+    clearTimeout(audioTimer);
     button.textContent = '正在播放…';
-    audioStatus.textContent = '正在播放。如果听不到，请检查设备音量和输出设备。';
+    audioStatus.textContent = slow ? '正在播放慢速音频' : '正在播放';
   };
-  speech.onend = () => {
-    if (id === speechId) stopSpeech('播放结束');
+  recording.onwaiting = () => {
+    if (id !== playbackId) return;
+    button.textContent = '正在缓冲…';
+    audioStatus.textContent = '正在缓冲音频…';
+    waitForAudio();
   };
-  speech.onerror = () => {
-    if (id === speechId) stopSpeech('未能播放语音。请检查设备声音，或换用其他浏览器后重试。');
+  recording.onended = () => {
+    if (id === playbackId) stopPlayback('播放结束');
   };
-  speechTimer = setTimeout(() => {
-    if (id === speechId) stopSpeech('语音未能启动。请检查设备声音，或换用其他浏览器后重试。');
-  }, 10000);
-  try {
-    speechSynthesis.speak(speech);
-  } catch (error) {
-    stopSpeech('未能播放语音，请换用其他浏览器后重试。');
-  }
+  recording.onerror = () => {
+    if (id === playbackId) stopPlayback('音频暂时无法加载，请检查网络后重试。');
+  };
+  waitForAudio();
+  recording.play().catch(error => {
+    if (id !== playbackId) return;
+    stopPlayback(error.name === 'NotAllowedError' ? '浏览器阻止了播放，请再次点击播放按钮。' : '音频暂时无法播放，请稍后重试。');
+  });
 }
 
 function goTo(index) {
-  stopSpeech();
+  stopPlayback();
   idx = index;
   selected = answers[idx] ?? null;
   checked = selected !== null;
@@ -267,7 +275,7 @@ function showFeedback() {
       <strong>建议开口练习</strong><br>${lesson.reply}<br>
       <button class="secondary" id="replyAudio" data-audio-label="▶ 听示范回应" style="margin-top:10px">▶ 听示范回应</button>
     </div>`;
-  document.getElementById('replyAudio').onclick = event => speak(lesson.reply, event.currentTarget);
+  document.getElementById('replyAudio').onclick = event => playRecording('reply', event.currentTarget);
   document.getElementById('check').classList.add('hidden');
   document.getElementById('next').classList.remove('hidden');
   document.getElementById('retry').classList.remove('hidden');
@@ -322,8 +330,8 @@ function render() {
       ${idx > 0 ? '<button class="secondary" id="previous">← 上一题</button>' : ''}
       ${complete && idx !== lessons.length - 1 ? '<button class="secondary" id="summary">返回成绩</button>' : ''}
     </div>`;
-  document.getElementById('listen').onclick = event => speak(lesson.en, event.currentTarget);
-  document.getElementById('slower').onclick = event => speak(lesson.en, event.currentTarget, .65);
+  document.getElementById('listen').onclick = event => playRecording('scene', event.currentTarget);
+  document.getElementById('slower').onclick = event => playRecording('scene', event.currentTarget, true);
   document.getElementById('show').onclick = event => {
     const hidden = document.getElementById('transcript').classList.toggle('hidden');
     event.currentTarget.setAttribute('aria-expanded', String(!hidden));
@@ -347,7 +355,7 @@ function render() {
   };
   document.getElementById('next').onclick = () => goTo(idx + 1);
   document.getElementById('retry').onclick = () => {
-    stopSpeech();
+    stopPlayback();
     selected = null;
     checked = false;
     render();
@@ -357,10 +365,10 @@ function render() {
   if (checked) showFeedback();
 }
 
-stopButton.onclick = () => stopSpeech('已停止播放');
-window.addEventListener('pagehide', () => stopSpeech());
+stopButton.onclick = () => stopPlayback('已停止播放');
+window.addEventListener('pagehide', () => stopPlayback());
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) stopSpeech();
+  if (document.hidden) stopPlayback();
 });
 render();
 </script></body></html>
