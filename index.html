@@ -10,127 +10,127 @@ button:disabled{cursor:default}.option{line-height:1.6;overflow-wrap:anywhere}
 #audioControls{margin-bottom:16px}#audioStatus{display:block;min-height:22px;margin:0 0 8px}
 #stopAudio:disabled{opacity:.5}#manualCopy{min-height:70px}
 @media(max-width:420px){.card{padding:16px}.english{font-size:20px}}
-</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.1。语音朗读使用设备浏览器内置语音功能，发音和可用性取决于设备；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
+</style></head><body><main><div class="hero"><div class="tag">ENGLISH MEETING LAB · DAY 01</div><h1>英语会议不掉线</h1><p>Day 1｜听不懂、跟不上时，如何把对话拉回自己的节奏？</p><div class="meta"><span>6 道情境题 · 含听读练习约 15 分钟</span><span id="counter">0 / 6</span></div><div class="bar"><div id="progress" style="width:0%"></div></div></div><div id="audioControls"><span class="small" id="audioStatus" role="status"></span><button class="secondary" id="stopAudio" disabled>■ 停止播放</button></div><p class="small" id="storageStatus" role="status"></p><section id="app" class="card"></section><footer>© English Meeting Lab · V2.2。语音朗读使用设备浏览器内置语音功能，发音和可用性取决于设备；本版不录音、不上传学习数据。进度仅保存在当前浏览器设备中。</footer></main><script>
 const lessons = [
   {
-    scene: "客户看完了你展示的测算表",
-    en: "Before we move forward, could you walk us through how you arrived at those numbers?",
-    q: "客户希望你接下来怎样讲这组数字？",
-    opts: [
-      "逐项说明这些数字与上一版相比变了多少。",
-      "逐项说明这些数字会怎样影响下一步决策。",
-      "用一项测算作例子，说明从输入到结果的推算过程。",
-      "用一项测算作例子，说明如何核查结果有没有算错。"
+    "scene": "客户看完了你展示的测算表",
+    "en": "Before we move forward, could you walk us through how you arrived at those numbers?",
+    "q": "客户希望你接下来怎样讲这组数字？",
+    "opts": [
+      "Compare these numbers with last month's figures.",
+      "Explain how these numbers affect the project schedule.",
+      "Explain how you calculated these numbers, step by step.",
+      "Check whether these numbers contain any calculation errors."
     ],
-    a: 2,
-    why: "how you arrived at those numbers 问的是数字怎么得出来。可以挑一行，从用到的数量、单价讲到最后的金额。",
-    miss: [
-      "比较版本能说明数字变了多少，但客户问的是这一版的数字怎么得来。",
-      "解释数字对决策的影响，回答的是拿到结果后怎么用。",
+    "a": 2,
+    "why": "walk us through 表示逐步解释，how you arrived at those numbers 问这些数字是怎么算出来的。C 用 calculated 和 step by step 表达了这个意思。",
+    "miss": [
+      "A 比较本次与上个月的数字，客户问的是本次数值的计算过程。",
+      "B 解释数字如何影响项目进度，客户问的是这些数字如何得出。",
       "",
-      "复核可以发现计算错误，客户此刻想了解的是原先怎么算出结果。"
+      "D 检查有没有算错，客户当前想听的是推算过程。"
     ],
-    reply: "Sure. Let me show you the inputs we used and how we worked out the total."
+    "reply": "Sure. Let me explain how we calculated these numbers."
   },
   {
-    scene: "你在核对本周的收尾安排",
-    en: "We need to wrap this up by Thursday, assuming procurement signs off.",
-    q: "你想核对周四这个日期。哪句复述保留了对方所说的条件？",
-    opts: [
-      "So Thursday is our deadline for finishing, provided we get procurement approval?",
-      "So Thursday is procurement’s deadline for signing off once we finish?",
-      "So Thursday is our deadline for finishing, even if procurement approval is still pending?",
-      "So Thursday is when we start wrapping up, provided we get procurement approval?"
+    "scene": "你在核对本周的收尾安排",
+    "en": "We need to wrap this up by Thursday, assuming procurement signs off.",
+    "q": "哪句回应准确确认了完成期限和审批条件？",
+    "opts": [
+      "So we need to finish by Thursday if procurement approves?",
+      "So we need to finish after Thursday if procurement approves?",
+      "So we need to finish by Thursday even without procurement approval?",
+      "So we need to start on Thursday if procurement approves?"
     ],
-    a: 0,
-    why: "wrap this up by Thursday 指最迟周四完成收尾。assuming procurement signs off 给这个安排加了前提：采购部门批准。",
-    miss: [
+    "a": 0,
+    "why": "by Thursday 指最迟周四完成，assuming procurement signs off 指以采购部门批准为前提。A 同时保留了完成期限和审批条件。",
+    "miss": [
       "",
-      "原句把周四定为收尾期限，没有给采购部门单独设定审批期限。",
-      "even if 把意思变成即使还没获批也要按原计划收尾，去掉了原有前提。",
-      "start wrapping up 把周四当成开始收尾的时间。by Thursday 说的是最迟何时完成。"
+      "B 把最迟周四完成变成了周四之后完成。",
+      "C 中 even without 表示即使没有批准也完成，改变了原句的审批前提。",
+      "D 把周四变成开始工作的日期，原句说的是最迟何时完成。"
     ],
-    reply: "Just to check, we need to finish by Thursday, provided procurement signs off. Is that right?"
+    "reply": "So we need to finish by Thursday if procurement approves. Is that right?"
   },
   {
-    scene: "你第一次参加这个项目的试运行会议",
-    en: "We may need to revisit the acceptance criteria before the pilot run.",
-    q: "你想弄清本项目怎样才算通过验收。哪句能让对方说出判断依据？",
-    opts: [
-      "Could you clarify what prompted the team to revisit the acceptance criteria for this pilot?",
-      "Could you clarify what changes the team has proposed to the acceptance criteria for this pilot?",
-      "Could you clarify what happens next if the pilot falls short of the acceptance criteria?",
-      "Could you clarify what the pilot has to demonstrate to meet the acceptance criteria?"
+    "scene": "你第一次参加这个项目的试运行会议",
+    "en": "We may need to revisit the acceptance criteria before the pilot run.",
+    "q": "你不清楚本项目怎样才算通过验收，哪句能问清合格条件？",
+    "opts": [
+      "Could you explain why we need to review the criteria?",
+      "Could you explain who will check the pilot results?",
+      "Could you explain what happens if the pilot fails?",
+      "Could you explain what the pilot needs to do to pass?"
     ],
-    a: 3,
-    why: "acceptance criteria 是判断结果能否被接受的条件。问试运行必须证明什么，对方就需要说明合格结果的具体要求。",
-    miss: [
-      "这句问为什么要重新审视标准。对方可能解释客户需求有变，但你还不知道怎样才算通过。",
-      "这句只问拟议中的改动。即使对方说暂时没有改动，你仍不知道现行标准是什么。",
-      "这句问未达标后怎么处理。补测或整改属于后续安排。",
+    "a": 3,
+    "why": "acceptance criteria 指验收合格的条件。D 问试运行要达到什么要求才能通过，能让对方具体说明这些条件。",
+    "miss": [
+      "A 问为什么要重新审视标准，尚未问到合格条件。",
+      "B 问谁来检查结果，得到负责人名字仍不知道怎样才合格。",
+      "C 问试运行失败后如何处理，尚未问到通过验收的条件。",
       ""
     ],
-    reply: "Could you clarify what the pilot has to demonstrate to meet the acceptance criteria?"
+    "reply": "Could you explain what the pilot needs to do to pass?"
   },
   {
-    scene: "网络卡顿，你想核实客户的顾虑",
-    en: "The main concern is not the cost, but the long-term reliability of the system.",
-    q: "哪句复述最准确，同时保留了客户关注的重点和时间范围？",
-    opts: [
-      "So your main concern is how much it will cost to keep the system reliable over the years?",
-      "So your main concern is whether the system will keep working reliably over the years?",
-      "So your main concern is whether the system will work reliably during the initial trial?",
-      "So your main concern is how reliable the long-term cost estimates are for this system?"
+    "scene": "网络卡顿，你想核实客户的顾虑",
+    "en": "The main concern is not the cost, but the long-term reliability of the system.",
+    "q": "哪句回应准确确认了客户最主要的顾虑？",
+    "opts": [
+      "So your main concern is the cost of the system?",
+      "So your main concern is whether the system stays reliable over time?",
+      "So your main concern is whether the system works during the trial?",
+      "So your main concern is the cost of keeping the system reliable?"
     ],
-    a: 1,
-    why: "说话人把 cost 放在次要位置，把重点落在 long-term reliability of the system，也就是系统用久了还能不能稳定运行。",
-    miss: [
-      "这句虽然提到长期可靠性，问的核心仍是维持可靠性要花多少钱。",
+    "a": 1,
+    "why": "原句把重点放在 long-term reliability，也就是系统长期使用时是否稳定可靠。B 中 stays reliable over time 保留了这个意思。",
+    "miss": [
+      "A 把主要顾虑放在系统成本上，原句明确把长期可靠性作为重点。",
       "",
-      "这句问的是初次试运行期间。一次试运行表现良好，仍回答不了长期表现怎样。",
-      "这句把“可靠”用来形容成本估算。原句说的是系统本身的可靠性。"
+      "C 只关注试运行期间能否工作，时间范围比长期使用短。",
+      "D 问维持可靠性需要多少钱，关注的仍是成本。"
     ],
-    reply: "So your main concern is whether the system will keep working reliably over the years. Is that right?"
+    "reply": "So your main concern is whether the system stays reliable over time. Is that right?"
   },
   {
-    scene: "你在记录试运行的流程",
-    en: "First, we will review the specifications. Then we will run a short trial and share the results.",
-    q: "你准备请对方再讲一遍。哪句复述的三步顺序与刚才一致？",
-    opts: [
-      "Could we go over that again: run the trial, review the specs, then share the results?",
-      "Could we go over that again: review the specs, share the results, then run the trial?",
-      "Could we go over that again: review the specs, run the trial, then share the results?",
-      "Could we go over that again: run the trial, share the results, then review the specs?"
+    "scene": "你在记录试运行的流程",
+    "en": "First, we will review the specifications. Then we will run a short trial and share the results.",
+    "q": "哪一项的三个步骤顺序与刚才一致？",
+    "opts": [
+      "Run the trial, review the specifications, then share the results.",
+      "Review the specifications, share the results, then run the trial.",
+      "Review the specifications, run the trial, then share the results.",
+      "Run the trial, share the results, then review the specifications."
     ],
-    a: 2,
-    why: "First 引出审核规格，Then 引出试运行，最后才有这次试运行的结果可分享。四句请求都很礼貌，要核对的是动作的先后。",
-    miss: [
-      "这句把试运行排到了审核规格之前。",
-      "这句在试运行之前就要分享本次试运行的结果。",
+    "a": 2,
+    "why": "First 引出审核规格，Then 引出试运行，最后分享结果。C 保留了这个顺序，四个选项使用相同的动作词，要听清先后。",
+    "miss": [
+      "A 把试运行放在审核规格之前。",
+      "B 把分享结果放在试运行之前。",
       "",
-      "这句把审核规格放到了最后，对方把它放在第一步。"
+      "D 把审核规格放到了最后，原句把它放在第一步。"
     ],
-    reply: "Could you walk me through that again? We review the specs first, then run the trial and share the results. Is that right?"
+    "reply": "So we review the specifications first, then run the trial and share the results. Is that right?"
   },
   {
-    scene: "散会前，你在补行动记录",
-    en: "Let us circulate the updated proposal and reconvene early next week.",
-    q: "记录里“发出新版方案”这一行还缺负责人和截止时间。哪句能补齐两栏？",
-    opts: [
-      "Who will send out the revised proposal, and when does it need to go out?",
-      "Who should receive the revised proposal, and when does it need to go out?",
-      "Who will send out the revised proposal, and when are we meeting again?",
-      "Who will sign off on the revised proposal, and when does it need to go out?"
+    "scene": "散会前，你在补行动记录",
+    "en": "Let us circulate the updated proposal and reconvene early next week.",
+    "q": "你还需要确认谁发新版方案、何时发出，哪句能问全？",
+    "opts": [
+      "Who will send the updated proposal, and by when?",
+      "Who will receive the updated proposal, and by when?",
+      "Who will send the updated proposal, and when will we meet?",
+      "Who will approve the updated proposal, and by when?"
     ],
-    a: 0,
-    why: "circulate 是把方案分发给相关人员。原句的 early next week 修饰 reconvene，指下次碰面的时间。发送人和发出期限都需要另问。",
-    miss: [
+    "a": 0,
+    "why": "A 中 Who will send 问发送负责人，by when 问发出期限。原句中的 early next week 是下次开会的时间，方案何时发出还需要另问。",
+    "miss": [
       "",
-      "这句核对了发出期限，却把收件人填进了本该填写发送人的一栏。",
-      "这句问到了发送人，后半句问的是下次开会时间，发出期限仍空着。",
-      "这句问到的是审批人。会议没有说明审批人也负责发送。"
+      "B 问谁接收方案，缺少发送负责人。",
+      "C 问了发送人和开会时间，缺少方案的发出期限。",
+      "D 问谁批准方案，审批人未必负责发送。"
     ],
-    reply: "Who will send out the revised proposal, and when does it need to go out?"
+    "reply": "Who will send the updated proposal, and by when?"
   }
 ];
 const progressKey = 'english-meeting-day1-answers-v2';
